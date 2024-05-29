@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Correction</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        textarea {
+            width: 96%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+            resize: vertical;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .suggestions-container {
+            margin-top: 30px;
+        }
+
+        .mistake {
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        ol {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Spelling Correction</h1>
+    <form action="/text" method="post">
+        <textarea name="textupload" cols="50" rows="10">{{ submitted_text }}</textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if submitted_text %}
+    <div class="suggestions-container">
+        <h2>Your Submitted Text:</h2>
+        <p>{{ submitted_text }}</p>
+    </div>
+    {% endif %}
+
+    {% if replace %}
+    <div class="suggestions-container">
+        <h2>Suggestions for replacements:</h2>
+        {% for mistake, suggestions in replace.items() %}
+        <p class="mistake">Mistake: {{ mistake }}</p>
+        <ol>
+            {% for suggestion in suggestions %}
+            <li>{{ suggestion }}</li>
+            {% endfor %}
+        </ol>
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+
+</html>
